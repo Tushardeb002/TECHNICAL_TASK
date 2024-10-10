@@ -2,7 +2,7 @@
 Task-2: Linux Based Task - Our task is to develop a Bash script that acts as a Linux command to manage
 system resources effectively.
 
-System Management Operations!
+System Management Operations
 
 Part 1 | Level Easy
 • List Running Services:
@@ -39,4 +39,4 @@ o Command: $ sysopctl backup <path>
 o Expected Output: Confirmation of backup initiation and status, potentially
 using rsync for file transfers.
 
-[IMG](https://github.com/user-attachments/assets/01869a64-1dfc-4d7d-bc23-db3b45334d8e)
+![IMG](https://github.com/user-attachments/assets/6e9ff764-18c4-46d2-a526-142bce8bc82b)
