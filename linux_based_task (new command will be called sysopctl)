@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# Function Definitions
+
+# Display the version of the script
+version() {
+    echo "sysopctl version 0.1.0"
+}
+
+# List all currently active services
+list_services() {
+    echo "Listing active services..."
+    systemctl list-units --type=service --state=running
+}
+
+# Display current system load
+view_system_load() {
+    echo "Current system load:"
+    uptime
+}
+
+# Start a specified service
+start_service() {
+    if [ -z "$1" ]; then
+        echo "Usage: sysopctl start_service <service-name>"
+    else
+        echo "Starting service: $1"
+        systemctl start "$1"
+    fi
+}
+
+# Stop a specified service
+stop_service() {
+    if [ -z "$1" ]; then
+        echo "Usage: sysopctl stop_service <service-name>"
+    else
+        echo "Stopping service: $1"
+        systemctl stop "$1"
+    fi
+}
+
+# Check disk usage across partitions
+check_disk_usage() {
+    echo "Disk usage by partition:"
+    df -h
+}
+
+# Monitor system processes like 'top' or 'htop'
+process_monitor() {
+    echo "Monitoring system processes (press Ctrl-C to stop)..."
+    top
+}
+
+# Analyze system logs
+logs_analyze() {
+    echo "Analyzing recent critical system logs..."
+    journalctl -p 3 -xb
+}
+
+# Backup system files to the specified path
+backup_system_files() {
+    if [ -z "$1" ]; then
+        echo "Usage: sysopctl backup_system_files <path-to-backup>"
+    else
+        echo "Backing up system files to: $1"
+        rsync -avh --progress / "$1"
+    fi
+}
+
+# Help menu
+help_menu() {
+    echo "Usage: sysopctl <command> [options]"
+    echo "Commands:"
+    echo "  version - Show version of sysopctl"
+    echo "  list_services - List all active services"
+    echo "  view_system_load - Display current system load"
+    echo "  start_service <service-name> - Start a specific service"
+    echo "  stop_service <service-name> - Stop a specific service"
+    echo "  check_disk_usage - Check disk usage statistics"
+    echo "  process_monitor - Monitor system processes"
+    echo "  logs_analyze - Analyze system logs"
+    echo "  backup_system_files <path> - Backup system files to a specified path"
+}
+
+# Main Execution
+if [ "$#" -eq 0 ]; then
+    help_menu
+    exit 1
+fi
+
+command=$1
+option=$2
+
+case $command in
+    version)
+        version
+        ;;
+    list_services)
+        list_services
+        ;;
+    view_system_load)
+        view_system_load
+        ;;
+    start_service)
+        start_service $option
+        ;;
+    stop_service)
+        stop_service $option
+        ;;
+    check_disk_usage)
+        check_disk_usage
+        ;;
+    process_monitor)
+        process_monitor
+        ;;
+    logs_analyze)
+        logs_analyze
+        ;;
+    backup_system_files)
+        backup_system_files $option
+        ;;
+    help)
+        help_menu
+        ;;
+    *)
+        echo "Invalid command: $command"
+        help_menu
+        ;;
+esac
